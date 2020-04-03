@@ -45,7 +45,7 @@ def find(artist):
 def save(album):
     """
         Сохраняет альбом в базу данных
-        """
+    """
     session = connect_db()
     session.add(album)
     session.commit()
@@ -53,6 +53,9 @@ def save(album):
 
 
 def check_unique(album):
+    """
+        Проверяет уникальность названия альбома
+    """
     artist = request.forms.get("artist")
     albums_list = find(artist)
     for item in albums_list:
@@ -60,8 +63,12 @@ def check_unique(album):
             return False
     return True
 
+
 @route("/albums/<artist>", method='GET')
 def albums(artist):
+    """
+        Обрабатывает запрос списка альбомов для артиста
+    """
     albums_list = find(artist)
     if not albums_list:
         message = "Альбомов {} не найдено".format(artist)
@@ -78,6 +85,9 @@ def albums(artist):
 
 @route("/albums", method='POST')
 def save_album():
+    """
+        Обрабатывает запрос на сохранение нового альбома
+    """
     new_album = Album()
     try:
         int(request.forms.get("year"))
